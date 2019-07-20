@@ -10,9 +10,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".Main2Activity"
-            android:screenOrientation="landscape">
-        </activity>
+            android:name=".MainActivity3"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_main3"
+            android:theme="@style/FullscreenTheme"></activity>
         <activity
             android:name=".MainActivity"
             android:screenOrientation="landscape">
@@ -22,6 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".MainActivity2"
+            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

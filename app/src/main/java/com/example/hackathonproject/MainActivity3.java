@@ -18,4 +18,15 @@ public class MainActivity3 extends Activity {
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 }

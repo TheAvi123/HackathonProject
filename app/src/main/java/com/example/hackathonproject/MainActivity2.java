@@ -33,4 +33,15 @@ public class MainActivity2 extends AppCompatActivity {
         startActivity(beginLevelOne);
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
 }

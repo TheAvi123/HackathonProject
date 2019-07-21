@@ -13,7 +13,7 @@ public class GameThread extends Thread {
         this.surfaceHolder= surfaceHolder;
     }
 
-    
+
 
 
 }

@@ -39,4 +39,16 @@ public class MainActivity extends AppCompatActivity {
         Intent goToMenu = new Intent(this, MainActivity2.class);
         startActivity(goToMenu);
     }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
 }

@@ -6,6 +6,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 public class MainActivity3 extends Activity {
+    // The actual level 1
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,6 +18,7 @@ public class MainActivity3 extends Activity {
 
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(new GamePanel(this));
     }
 
     @Override

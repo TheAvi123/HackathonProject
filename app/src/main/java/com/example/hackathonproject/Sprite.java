@@ -1,4 +1,10 @@
 package com.example.hackathonproject;
 
-public abstract class Sprite {
+import android.graphics.Canvas;
+
+public interface Sprite {
+
+    public void draw(Canvas canvas);
+
+    public void update();
 }

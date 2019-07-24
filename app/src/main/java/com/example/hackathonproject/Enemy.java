@@ -5,7 +5,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public abstract class Enemy implements GameObject {
+public abstract class Enemy implements Sprite {
 
     private Rect rectangle;
     private int color;

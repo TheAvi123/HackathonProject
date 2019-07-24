@@ -1,7 +1,10 @@
 package com.example.hackathonproject;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.SurfaceHolder;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 
 public class GameThread extends Thread {
 
@@ -18,6 +21,7 @@ public class GameThread extends Thread {
     }
 
     public GameThread(SurfaceHolder surfaceHolder, GamePanel gamePanel)  {
+        super();
         this.gamePanel = gamePanel;
         this.surfaceHolder= surfaceHolder;
     }
@@ -44,6 +48,7 @@ public class GameThread extends Thread {
 
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println("CAUGHT EXCEPTION IN RUNNING");
             }
             finally {
                 if (canvas != null) {
@@ -70,10 +75,12 @@ public class GameThread extends Thread {
                 averageFPS = 1000/((totalTime/frameCount)/1000000);
                 frameCount = 0;
                 totalTime = 0;
-                System.out.println(averageFPS);
+                System.out.println("THIS IS THE FPS " + averageFPS + " I WANNA MAKE THIS STAND OUT");
+//                LOG("THIS IS THE FPS " + averageFPS + " I WANNA MAKE THIS STAND OUT")
             }
         }
     }
+
 
 
 }

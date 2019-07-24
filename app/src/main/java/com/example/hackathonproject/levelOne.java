@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class MainActivity3 extends Activity {
+public class levelOne extends Activity {
     // The actual level 1
 
     @Override

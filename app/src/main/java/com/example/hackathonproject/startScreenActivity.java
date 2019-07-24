@@ -7,30 +7,37 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class MainActivity2 extends AppCompatActivity {
-    Button level1;
+public class startScreenActivity extends AppCompatActivity {
+    Button startGame,quit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.startscreenactivity);
 
-        level1 = findViewById(R.id.Level1);
+        startGame = findViewById(R.id.GameStart);
+        quit = findViewById(R.id.ExitGame);
         createOnClickListeners();
     }
 
     private void createOnClickListeners() {
-        level1.setOnClickListener(new View.OnClickListener() {
+        startGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startLevelOne();
+                startMenuScreen();
+            }
+        });
+        quit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
     }
 
-    private void startLevelOne() {
-        Intent beginLevelOne = new Intent (this, MainActivity3.class);
-        startActivity(beginLevelOne);
+    private void startMenuScreen() {
+        Intent goToMenu = new Intent(this, levelSelectionActivity.class);
+        startActivity(goToMenu);
     }
 
     @Override

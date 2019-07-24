@@ -12,7 +12,7 @@ public class Player implements GameObject {
     private int color;  //Apparently colors in android are in integer form so....
 
     public Player(Rect rectangle, int color){
-        this.rect = rectangle;
+        this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
         this.color = color;
     }
 

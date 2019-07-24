@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity">
+            android:name=".startScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,9 +18,9 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity2"></activity>
+            android:name=".levelSelectionActivity"></activity>
         <activity
-            android:name=".MainActivity3"
+            android:name=".levelOne"
             android:screenOrientation="landscape"></activity>
     </application>
 

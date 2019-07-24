@@ -10,13 +10,16 @@ public abstract class Enemy implements GameObject {
     private Rect rectangle;
     private int color;
 
-    public Enemy(Rect rectangle, int color){
+    public Enemy(Rect rectangle, int color) {
         this.rectangle = rectangle;
         this.color = color;
     }
 
     public boolean collidingWithPlayer(Player player) {
-        return rectangle.contains(player.GetPlayerRectangle());
+        return (rectangle.contains(player.GetPlayerRectangle().left, player.GetPlayerRectangle().top)
+                || rectangle.contains(player.GetPlayerRectangle().right, player.GetPlayerRectangle().top)
+                || rectangle.contains(player.GetPlayerRectangle().left, player.GetPlayerRectangle().bottom)
+                || rectangle.contains(player.GetPlayerRectangle().right, player.GetPlayerRectangle().bottom));
     }
 
     @Override
@@ -31,7 +34,7 @@ public abstract class Enemy implements GameObject {
     }
 
     public void update(Point point) {   //Update method to move the player to a new point
-        rectangle.set(point.x - rectangle.width()/2, point.y - rectangle.height()/2,
-                point.x + rectangle.width()/2, point.y + rectangle.height()/2);
+        rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2,
+                point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
     }
 }

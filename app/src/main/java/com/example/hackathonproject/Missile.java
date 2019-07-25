@@ -6,8 +6,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-import androidx.constraintlayout.solver.widgets.Rectangle;
-
 public class Missile extends Obstacle {
     public static int width = 100;
     public static int height = 300;
@@ -18,7 +16,7 @@ public class Missile extends Obstacle {
     private int startX;
 
     public Missile(int height, int startX, int yPos) {
-        super(height);
+        super(new Rect(height,width,height,width), Color.DKGRAY);
         this.startX = startX;
         //l,t,r,b
         rectangle = new Rect(startX,yPos,startX + width, yPos + height);

@@ -20,11 +20,13 @@ public class LevelOne extends Activity {
 
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(new GamePanel(this));
+
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
+
+        setContentView(new GamePanel(this));
     }
 
     @Override

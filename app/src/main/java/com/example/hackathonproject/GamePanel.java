@@ -3,6 +3,7 @@ package com.example.hackathonproject;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
@@ -13,7 +14,12 @@ import android.view.SurfaceView;
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private Player player;
     private Point playerPoint;
-    private ObstacleManager obstacleManager;
+    private ObstacleManager obstacleManager = new ObstacleManager();
+    private boolean gameOver = false;
+    private long gameOverTime;
+    // Game Over Screen
+    private Rect r = new Rect();
+
 
     private GameThread thread;
     // will eventually need to make a list of everything on screen for game panel to draw
@@ -23,13 +29,15 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
-        player = new Player(new Rect(Constants.SCREEN_WIDTH/2 - 50, 10, Constants.SCREEN_WIDTH/2 + 50, 50));
-        playerPoint = new Point(150, 150);
-        obstacleManager = new ObstacleManager();
+        player = new Player(new Rect(100, 100, 200, 200), Color.BLUE);
+        playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
+        player.update(playerPoint);
     }
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {
+        thread = new GameThread(getHolder(), this);
+
         thread.setRunning(true);
         thread.start();
 
@@ -37,7 +45,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     @Override
     public void surfaceChanged(SurfaceHolder surfaceHolder, int format, int width, int height) {
-
+        // Method is not used
     }
 
     @Override
@@ -59,13 +67,34 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     // will handle all touch events
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        return super.onTouchEvent(event);
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                // After game is over for 2 seconds swipe down to reset the game
+                if (gameOver && System.currentTimeMillis() - gameOverTime >= 2000) {
+                    reset();
+                    gameOver = false;
+                }
+        }
+        return true;
+    }
 
+    public void reset() {
+        playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
+        player.update(playerPoint);
+        obstacleManager = new ObstacleManager();
     }
 
     public void update() {
-        player.update(playerPoint);
-        obstacleManager.update();
+        if (!gameOver) {
+            player.update(playerPoint);
+            playerPoint.x += 3;
+            obstacleManager.update();
+
+            if (obstacleManager.playerCollide(player)) {
+                gameOver = true;
+                gameOverTime = System.currentTimeMillis();
+            }
+        }
     }
 
     @Override
@@ -74,7 +103,23 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         canvas.drawColor(Color.WHITE);
         player.draw(canvas);
         obstacleManager.draw(canvas);
+
+        if (gameOver) {
+            Paint paint = new Paint();
+            paint.setTextSize(80);
+            paint.setColor(Color.BLACK);
+            drawCenterText(canvas, paint, "Game Over");
+        }
     }
 
-
+    private void drawCenterText(Canvas canvas, Paint paint, String text) {
+        paint.setTextAlign(Paint.Align.LEFT);
+        canvas.getClipBounds(r);
+        int cHeight = r.height();
+        int cWidth = r.width();
+        paint.getTextBounds(text, 0, text.length(), r);
+        float x = cWidth / 2f - r.width() / 2f - r.left;
+        float y = cHeight / 2f + r.height() / 2f - r.bottom;
+        canvas.drawText(text, x, y, paint);
+    }
 }

@@ -9,33 +9,16 @@ import android.graphics.Rect;
 public class Player implements Sprite {
 
     private Rect rect;
-    static int color = Color.RED;
-    protected int x;
-    protected int y;
+    private int color;
 
-    public Player(Rect rectangle) {
-        this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
-    }
-
-    public Player(Rect rectangle, int x, int y){
+    public Player(Rect rectangle, int color){
         this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
         this.color = color;
-        this.x = x;
-        this.y = y;
     }
 
-    public Rect GetPlayerRectangle() {
+    public Rect getPlayerRectangle() {
         return rect;
     }
-
-    public int getX()  {
-        return this.x;
-    }
-
-    public int getY()  {
-        return this.y;
-    }
-
 
     @Override
     public void draw(Canvas canvas) {

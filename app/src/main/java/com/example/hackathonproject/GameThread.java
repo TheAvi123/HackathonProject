@@ -42,7 +42,9 @@ public class GameThread extends Thread {
             try {
                 canvas = this.surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
+                    // Moves the Player
                     this.gamePanel.update();
+                    // Relocates the player on the canvas
                     this.gamePanel.draw(canvas);
                 }
 
@@ -76,7 +78,6 @@ public class GameThread extends Thread {
                 frameCount = 0;
                 totalTime = 0;
                 System.out.println("THIS IS THE FPS " + averageFPS + " I WANNA MAKE THIS STAND OUT");
-//                LOG("THIS IS THE FPS " + averageFPS + " I WANNA MAKE THIS STAND OUT")
             }
         }
     }

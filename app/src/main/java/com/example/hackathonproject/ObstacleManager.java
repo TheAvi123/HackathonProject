@@ -1,6 +1,8 @@
 package com.example.hackathonproject;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Rect;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -14,14 +16,22 @@ public class ObstacleManager {
     public ObstacleManager() {
 
         obstacles = new ArrayList<>();
-        missileFrequency = new Random().nextInt(100) + 100;
+        missileFrequency = new Random().nextInt(100);
         populateObstacles();
         timer = System.currentTimeMillis();
     }
 
-    private void populateObstacles() { // missles need to come from top right and left of the screen
+    public boolean playerCollide(Player player) {
+        for (Obstacle ob: obstacles) {
+            if (ob.collidingWithPlayer(player))
+                return true;
+        }
+        return false;
+    }
+
+    private void populateObstacles() { // missiles need to come from top right and left of the screen
         int currY = -5 * Constants.SCREEN_HEIGHT / 4;
-        while (currY < 0) { // should get rid of missles based on touch event {
+        while (currY < 0) { // should get rid of missiles based on touch event {
             int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));
             obstacles.add(new Missile(10, xStart, currY));
             currY += Missile.height + missileFrequency;
@@ -40,9 +50,9 @@ public class ObstacleManager {
         }
         for (Obstacle ob : obstacles) {
             ob.update(elapsedTime);
-            if (ob.getRectangle().top > Constants.SCREEN_HEIGHT) {
-                obstacles.remove(ob);
-                System.out.println("REMOVED AN OBSTACLE ONLY " + obstacles.size() + " LEFT");
+            if (obstacles.get(obstacles.size() - 1).getRectangle().top >= Constants.SCREEN_HEIGHT) {
+                obstacles.add(0, new Obstacle(new Rect(20,20,20,20), Color.BLACK));
+//                System.out.println("REMOVED AN OBSTACLE ONLY " + obstacles.size() + " LEFT");
             }
         }
         if (obstacles.size() == 0) {

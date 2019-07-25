@@ -6,35 +6,40 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public abstract class Obstacle implements Sprite {
+public class Obstacle implements Sprite {
 
 
     protected Rect rectangle;
-    private int color = Color.BLACK;
+    private int color;
 
-    public Obstacle(int RectHeight) {
+    public Obstacle(Rect rectangle, int color) {
         this.rectangle = rectangle;
+        this.color = color;
 
-        }
+    }
 
     public Rect getRectangle() {
         return rectangle;
     }
 
     public boolean collidingWithPlayer(Player player) {
-        return (rectangle.contains(player.GetPlayerRectangle().left, player.GetPlayerRectangle().top)
-                || rectangle.contains(player.GetPlayerRectangle().right, player.GetPlayerRectangle().top)
-                || rectangle.contains(player.GetPlayerRectangle().left, player.GetPlayerRectangle().bottom)
-                || rectangle.contains(player.GetPlayerRectangle().right, player.GetPlayerRectangle().bottom));
+        return rectangle.intersects(rectangle,player.getPlayerRectangle());
     }
 
     @Override
-    abstract public void draw(Canvas canvas);
+    public void draw(Canvas canvas) {
+        Paint paint = new Paint();
+        paint.setColor(color);
+        canvas.drawRect(rectangle,paint);
 
-    abstract public void update(int elapsedTime);
-// this stuff is weird
+    }
+
     @Override
-    public void update(){}
+    public void update() {
 
-    abstract public void update(Point point);   //Update method to move the obstacle to a new point
+    }
+
+    public void update(int elapsedTime) {
+    }
 }
+

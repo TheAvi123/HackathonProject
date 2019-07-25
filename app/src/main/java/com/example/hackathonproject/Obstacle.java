@@ -1,18 +1,23 @@
 package com.example.hackathonproject;
 
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public abstract class Enemy implements GameObject {
+public abstract class Obstacle implements GameObject {
 
-    private Rect rectangle;
-    private int color;
+    protected Rect rectangle;
+    private int color = Color.BLACK;
 
-    public Enemy(Rect rectangle, int color) {
+    public Obstacle(int RectHeight) {
         this.rectangle = rectangle;
-        this.color = color;
+
+        }
+
+    public Rect getRectangle() {
+        return rectangle;
     }
 
     public boolean collidingWithPlayer(Player player) {
@@ -23,18 +28,12 @@ public abstract class Enemy implements GameObject {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        Paint paint = new Paint();
-        paint.setColor(color);
-        canvas.drawRect(rectangle, paint);
-    }
+    abstract public void draw(Canvas canvas);
 
+    abstract public void update(int elapsedTime);
+// this stuff is weird
     @Override
-    public void update() {  //Regular update method
-    }
+    public void update(){}
 
-    public void update(Point point) {   //Update method to move the player to a new point
-        rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2,
-                point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
-    }
+    abstract public void update(Point point);   //Update method to move the obstacle to a new point
 }

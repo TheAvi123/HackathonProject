@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class levelSelectionActivity extends AppCompatActivity {
+public class LevelSelectionActivity extends AppCompatActivity {
     Button level1;
 
     @Override
@@ -29,7 +29,7 @@ public class levelSelectionActivity extends AppCompatActivity {
     }
 
     private void startLevelOne() {
-        Intent beginLevelOne = new Intent (this, levelOne.class);
+        Intent beginLevelOne = new Intent (this, LevelOne.class);
         startActivity(beginLevelOne);
     }
 

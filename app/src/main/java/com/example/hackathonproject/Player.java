@@ -9,11 +9,11 @@ import android.graphics.Rect;
 public class Player implements GameObject {
 
     private Rect rect;
-    private int color;  //Apparently colors in android are in integer form so....
+    static int color = Color.RED;
 
-    public Player(Rect rectangle, int color){
+    public Player(Rect rectangle){
         this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
-        this.color = color;
+//        this.color = color;
     }
 
     public Rect GetPlayerRectangle() {

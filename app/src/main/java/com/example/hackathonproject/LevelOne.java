@@ -2,10 +2,12 @@ package com.example.hackathonproject;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class levelOne extends Activity {
+public class LevelOne extends Activity {
     // The actual level 1
 
     @Override
@@ -19,6 +21,10 @@ public class levelOne extends Activity {
         //Remove title bar
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new GamePanel(this));
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        Constants.SCREEN_WIDTH = dm.widthPixels;
+        Constants.SCREEN_HEIGHT = dm.heightPixels;
     }
 
     @Override

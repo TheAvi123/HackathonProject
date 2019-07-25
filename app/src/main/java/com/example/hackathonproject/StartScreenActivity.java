@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class startScreenActivity extends AppCompatActivity {
+public class StartScreenActivity extends AppCompatActivity {
     Button startGame,quit;
 
     @Override
@@ -36,7 +36,7 @@ public class startScreenActivity extends AppCompatActivity {
     }
 
     private void startMenuScreen() {
-        Intent goToMenu = new Intent(this, levelSelectionActivity.class);
+        Intent goToMenu = new Intent(this, LevelSelectionActivity.class);
         startActivity(goToMenu);
     }
 

@@ -6,7 +6,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public abstract class Obstacle implements GameObject {
+public abstract class Obstacle implements Sprite {
+
 
     protected Rect rectangle;
     private int color = Color.BLACK;

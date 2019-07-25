@@ -6,19 +6,36 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public class Player implements GameObject {
+public class Player implements Sprite {
 
     private Rect rect;
     static int color = Color.RED;
+    protected int x;
+    protected int y;
 
-    public Player(Rect rectangle){
+    public Player(Rect rectangle) {
         this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
-//        this.color = color;
+    }
+
+    public Player(Rect rectangle, int x, int y){
+        this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
+        this.color = color;
+        this.x = x;
+        this.y = y;
     }
 
     public Rect GetPlayerRectangle() {
         return rect;
     }
+
+    public int getX()  {
+        return this.x;
+    }
+
+    public int getY()  {
+        return this.y;
+    }
+
 
     @Override
     public void draw(Canvas canvas) {

@@ -1,4 +1,4 @@
 package com.example.hackathonproject;
 
-public abstract class Item extends Sprite {
+public abstract class Item {
 }

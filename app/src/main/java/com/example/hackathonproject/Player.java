@@ -9,11 +9,10 @@ import android.graphics.Rect;
 public class Player implements Sprite {
 
     private Rect rect;
-    private int color;
+    private int color = Color.BLUE;
 
-    public Player(Rect rectangle, int color){
-        this.rect = rectangle; // should take this out player sprite should be defined here not where its instantiated
-        this.color = color;
+    public Player(Rect rectangle){
+        this.rect = rectangle;
     }
 
     public Rect getPlayerRectangle() {

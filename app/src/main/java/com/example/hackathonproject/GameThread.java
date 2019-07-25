@@ -41,6 +41,9 @@ public class GameThread extends Thread {
 
             try {
                 canvas = this.surfaceHolder.lockCanvas();
+                if (canvas == null) {
+                    System.out.println("CANVAS IS NULLLL");
+                }
                 synchronized (surfaceHolder) {
                     // Moves the Player
                     this.gamePanel.update();

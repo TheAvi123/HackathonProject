@@ -10,7 +10,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".StartScreenActivity">
+            android:name=".StartScreenActivity"
+            android:screenOrientation="reverseLandscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -18,10 +19,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LevelSelectionActivity"></activity>
+            android:name=".LevelSelectionActivity"
+            android:screenOrientation="reverseLandscape"></activity>
         <activity
             android:name=".LevelOne"
-            android:screenOrientation="landscape"></activity>
+            android:screenOrientation="reverseLandscape"></activity>
     </application>
 
 </manifest>

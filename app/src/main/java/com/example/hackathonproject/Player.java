@@ -6,12 +6,14 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-public class Player implements Sprite {
+import java.util.Observable;
+
+public class Player extends Observable implements Sprite  {
 
     private Rect rect;
     private int color = Color.BLUE;
 
-    public Player(Rect rectangle){
+    public Player(Rect rectangle) {
         this.rect = rectangle;
     }
 
@@ -32,7 +34,9 @@ public class Player implements Sprite {
     }
 
     public void update(Point point) {   //Update method to move the player to a new point
-        rect.set(point.x - rect.width()/2, point.y - rect.height()/2,
-                point.x + rect.width()/2, point.y + rect.height()/2);
+        setChanged();
+        notifyObservers(point);
+        rect.set(point.x - rect.width() / 2, point.y - rect.height() / 2,
+                point.x + rect.width() / 2, point.y + rect.height() / 2);
     }
 }

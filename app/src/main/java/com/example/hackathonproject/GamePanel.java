@@ -29,11 +29,12 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         getHolder().addCallback(this);
         thread = new GameThread(getHolder(), this);
         setFocusable(true);
-        player = new Player(new Rect(500,2000,550,2050));
-
+        player = new Player(new Rect(0,0,50,50));
 //        player = new Player(new Rect(Constants.SCREEN_WIDTH - 500,Constants.SCREEN_HEIGHT - 500,Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT));
-        playerPoint = new Point(150, 150);
+        playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         obstacleManager = new ObstacleManager();
+        player.addObserver(obstacleManager);
+
     }
 
     @Override
@@ -89,7 +90,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     public void update() {
         if (!gameOver) {
             player.update(playerPoint);
-            playerPoint.x += 3;
+//            playerPoint.x += 1;
             obstacleManager.update();
 
             if (obstacleManager.playerCollide(player)) {

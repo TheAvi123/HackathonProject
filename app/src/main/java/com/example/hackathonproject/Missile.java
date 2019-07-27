@@ -21,7 +21,7 @@ public class Missile extends Obstacle {
     protected Point playersPos;
 
     private int xPos; // of the left side of the missile
-    private int yPos = 0; // of the top of the missile
+    private int yPos; // of the top of the missile
     private int slope = 1;
     private float rotation;
 
@@ -33,6 +33,7 @@ public class Missile extends Obstacle {
         startX = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));
         xPos = startX;
 //        yPos = -Constants.SCREEN_HEIGHT / 5;
+        yPos = 0;
         //l,t,r,b
         rectangle = new Rect(xPos ,yPos,xPos + width, yPos + height);
 //        slope = slopeToPlayer();

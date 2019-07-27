@@ -54,13 +54,12 @@ public class ObstacleManager implements Observer {
         startTime = System.currentTimeMillis();
         long currTime = System.currentTimeMillis() - timer;
         int currNum = (int) Math.floor(currTime / 1000);
-        if (obstacles.size() == 0) {
             if (previousNum != currNum) {
                 previousNum = currNum;
                 obstacles.add(new Missile(playersPos));
                 System.out.println("added obstacle, " + obstacles.size() + " are now active");
             }
-        }
+
 //        System.out.println(obstacles.get(0).getRectangle());
         System.out.println(obstacles.get(0).getRectangle().right + " this is the right point");
         System.out.println(obstacles.get(0).getRectangle().top + " this is the top point");

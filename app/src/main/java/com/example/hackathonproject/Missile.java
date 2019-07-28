@@ -41,7 +41,7 @@ public class Missile extends Obstacle {
 
     public void update(Point point) {   //Update method to move the obstacle to a new point
         rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2,
-                point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
+                     point.x + rectangle.width() / 2, point.y + rectangle.height() / 2);
     }
 
     @Override

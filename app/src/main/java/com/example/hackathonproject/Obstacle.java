@@ -15,7 +15,6 @@ public class Obstacle implements Sprite {
     public Obstacle(Rect rectangle, int color) {
         this.rectangle = rectangle;
         this.color = color;
-
     }
 
     public Rect getRectangle() {
@@ -23,7 +22,7 @@ public class Obstacle implements Sprite {
     }
 
     public boolean collidingWithPlayer(Player player) {
-        return rectangle.intersects(rectangle,player.getPlayerRectangle());
+        return Rect.intersects(rectangle,player.getPlayerRectangle());
     }
 
     @Override

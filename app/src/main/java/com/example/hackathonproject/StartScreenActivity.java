@@ -26,7 +26,6 @@ public class StartScreenActivity extends AppCompatActivity {
         Constants.SCREEN_WIDTH = dm.widthPixels;
         Constants.SCREEN_HEIGHT = dm.heightPixels;
         System.out.println(Constants.SCREEN_HEIGHT + "AND " + Constants.SCREEN_WIDTH);
-
     }
 
     private void createOnClickListeners() {

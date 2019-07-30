@@ -37,25 +37,12 @@ public class Missile extends Obstacle {
 //        xPos += width/2; // now its the middle of the missile
         xDistance = playerPos.x - xPos;
         playerPosX = playerPos.x;
-        BitmapFactory bf = new BitmapFactory();
-        Bitmap movenot1 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_1);
-        Bitmap movenot2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_2);
-        Bitmap movenot3 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_3);
-
-        Bitmap move1 = RotateBitmap(movenot1,180);
-        Bitmap move2 = RotateBitmap(movenot2,180);
-        Bitmap move3 = RotateBitmap(movenot3,180);
 
 
         moving = new Animation(new Bitmap[]{move1,move2,move3}, .5f);
 
         aniManager = new AnimationManager(new Animation[]{moving});
 
-    }
-    public static Bitmap RotateBitmap(Bitmap source, float angle) {
-        Matrix matrix = new Matrix();
-        matrix.postRotate(angle);
-        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     boolean b = false;

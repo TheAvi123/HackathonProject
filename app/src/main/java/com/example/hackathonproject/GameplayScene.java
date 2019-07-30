@@ -7,14 +7,20 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.view.MotionEvent;
 
+import java.util.ArrayList;
+
+import static com.example.hackathonproject.GameThread.canvas;
+
 public class GameplayScene implements Scene {
     private Player player;
     private Point playerPoint;
     private ObstacleManager obstacleManager;
     private boolean gameOver = false;
     private long gameOverTime;
+    private ArrayList<Background> backgrounds;
     // Game Over Screen
     private Rect r = new Rect();
+
 
     public GameplayScene() {
         player = new Player(new Rect(0, 0, 150, 150));
@@ -22,6 +28,21 @@ public class GameplayScene implements Scene {
         player.update(playerPoint);
         obstacleManager = new ObstacleManager();
         player.addObserver(obstacleManager);
+        //load the background data into the Background objects and
+        // place them in our GameObject arraylist
+        backgrounds = new ArrayList();
+
+        backgrounds.add(new Background(
+                Constants.CURRENT_CONTEXT,
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                "clouds",  0, 80, 50));
+
+        backgrounds.add(new Background(
+                Constants.CURRENT_CONTEXT,
+                Constants.SCREEN_WIDTH,
+                Constants.SCREEN_HEIGHT,
+                "grass",  70, 110, 150));
 
     }
 
@@ -30,6 +51,7 @@ public class GameplayScene implements Scene {
         player.update(playerPoint);
         obstacleManager = new ObstacleManager();
     }
+
 
     @Override
     public void update() {
@@ -41,13 +63,20 @@ public class GameplayScene implements Scene {
                 gameOver = true;
                 gameOverTime = System.currentTimeMillis();
             }
+
+            // Update all the background positions
+            for (Background bg : backgrounds) {
+                bg.update(30);
+            }
         }
 
     }
 
     @Override
     public void draw(Canvas canvas) {
-        canvas.drawColor(Color.WHITE);
+//        canvas.drawColor(Color.WHITE);
+        drawBackground(0);
+        drawBackground(1);
         player.draw(canvas);
         obstacleManager.draw(canvas);
 
@@ -87,6 +116,42 @@ public class GameplayScene implements Scene {
         float x = cWidth / 2f - r.width() / 2f - r.left;
         float y = cHeight / 2f + r.height() / 2f - r.bottom;
         canvas.drawText(text, x, y, paint);
+    }
+
+    private void drawBackground(int position) {
+        Paint paint = new Paint();
+
+        // Make a copy of the relevant background
+//        backgrounds.add(new Background(   "clouds",  0, 80, 50));
+//
+//        backgrounds.add(new Background(
+//                Constants.CURRENT_CONTEXT,
+//                Constants.SCREEN_WIDTH,
+//                Constants.SCREEN_HEIGHT,
+//                "grass",  70, 110, 200));
+        Background bg = backgrounds.get(position);
+
+
+        // define what portion of images to capture and
+        // what coordinates of screen to draw them at
+
+        // For the regular bitmap
+        Rect fromRect1 = new Rect(0, 0, bg.width - bg.xClip, bg.height);
+        Rect toRect1 = new Rect(bg.xClip, bg.startY, bg.width, bg.endY);
+
+        // For the reversed background
+        Rect fromRect2 = new Rect(bg.width - bg.xClip, 0, bg.width, bg.height);
+        Rect toRect2 = new Rect(0, bg.startY, bg.xClip, bg.endY);
+
+        //draw the two background bitmaps
+        if (!bg.reversedFirst) {
+            canvas.drawBitmap(bg.bitmap, fromRect1, toRect1, paint);
+            canvas.drawBitmap(bg.bitmapReversed, fromRect2, toRect2, paint);
+        } else {
+            canvas.drawBitmap(bg.bitmap, fromRect2, toRect2, paint);
+            canvas.drawBitmap(bg.bitmapReversed, fromRect1, toRect1, paint);
+        }
+
     }
 
 }

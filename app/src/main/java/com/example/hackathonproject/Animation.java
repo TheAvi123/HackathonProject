@@ -66,6 +66,8 @@ public class Animation {
     }
 
     private void scaleRect(Rect rect) {
+        ratio = (float) (frames[frameIndex].getWidth())/frames[frameIndex].getHeight();
+
         if(rect.width() > rect.height()) {
             rect.left = (int) (rect.right - (rect.height() * ratio));
         } else {

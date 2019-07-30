@@ -2,15 +2,22 @@ package com.example.hackathonproject;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Rect;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+
+import java.util.ArrayList;
+
+import static com.example.hackathonproject.GameThread.canvas;
 
 
 public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
     private GameThread thread;
     private SceneManager manager;
+    ArrayList<Background> backgrounds;
+
 
     public GamePanel(Context context) {
         super(context);
@@ -23,6 +30,7 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
 
 
     }
+
 
     @Override
     public void surfaceCreated(SurfaceHolder surfaceHolder) {

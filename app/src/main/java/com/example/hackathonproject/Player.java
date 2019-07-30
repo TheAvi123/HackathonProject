@@ -38,6 +38,7 @@ public class Player extends Observable implements Sprite  {
         aniManager = new AnimationManager(new Animation[]{moving});
     }
 
+
     public Rect getPlayerRectangle() {
         return rect;
     }
@@ -61,7 +62,7 @@ public class Player extends Observable implements Sprite  {
     public void update(Point point) {   //Update method to move the player to a new point
         setChanged();
         notifyObservers(point);
-        point.x++;
+//        point.x++;
         rect.set(point.x - rect.width() / 2, point.y - rect.height() / 2,
                 point.x + rect.width() / 2, point.y + rect.height() / 2);
 

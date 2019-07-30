@@ -10,15 +10,14 @@ import android.view.MotionEvent;
 public class GameplayScene implements Scene {
     private Player player;
     private Point playerPoint;
-    private ObstacleManager obstacleManager = new ObstacleManager();
+    private ObstacleManager obstacleManager;
     private boolean gameOver = false;
     private long gameOverTime;
     // Game Over Screen
     private Rect r = new Rect();
 
     public GameplayScene() {
-        player = new Player(new Rect(0, 0, 50, 50));
-//        player = new Player(new Rect(Constants.SCREEN_WIDTH - 500,Constants.SCREEN_HEIGHT - 500,Constants.SCREEN_WIDTH,Constants.SCREEN_HEIGHT));
+        player = new Player(new Rect(0, 0, 150, 150));
         playerPoint = new Point(Constants.SCREEN_WIDTH / 2, 3 * Constants.SCREEN_HEIGHT / 4);
         player.update(playerPoint);
         obstacleManager = new ObstacleManager();
@@ -36,7 +35,6 @@ public class GameplayScene implements Scene {
     public void update() {
         if (!gameOver) {
             player.update(playerPoint);
-//            playerPoint.x += 1;
             obstacleManager.update();
 
             if (obstacleManager.playerCollide(player)) {
@@ -72,7 +70,7 @@ public class GameplayScene implements Scene {
     public void receiveTouch(MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                // After game is over for 2 seconds swipe down to reset the game
+                // After game is over for 2 seconds press down to reset the game
                 if (gameOver && System.currentTimeMillis() - gameOverTime >= 2000) {
                     reset();
                     gameOver = false;

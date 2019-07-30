@@ -61,5 +61,6 @@ public class Obstacle implements Sprite {
 
     public void update(int elapsedTime) {
     }
+
 }
 

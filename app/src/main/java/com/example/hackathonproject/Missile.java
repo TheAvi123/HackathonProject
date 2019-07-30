@@ -16,6 +16,7 @@ public class Missile extends Obstacle {
     public static int height = 150;
     private int color = Color.BLACK;
     private static int playerPosX;
+    private static int playerPosY;
 
     private Animation moving;
     private Animation explosion;
@@ -23,26 +24,61 @@ public class Missile extends Obstacle {
     private AnimationManager aniManager;
 
 
+    private float rand;
     private int xPos; // of the middle of the missile
     private int yPos = 0; // of the top of the missile
     double xDistance;
+    double yDistance;
 
     private Rect rect;
 
 
     public Missile(Point playerPos) {
         super(new Rect(0, 0, height, width), Color.DKGRAY);
-        xPos = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));  // here xpos is the left side of the missile
+
+        rand = (float) Math.random();
+        if (rand < 0.5) {
+            xPos = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));  // here xpos is the left side of the missile
+            yPos = 0;
+        } else {
+            rand = (float) Math.random();
+            if (rand < 0.5) {
+                xPos = 0;
+                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
+            } else {
+                xPos = Constants.SCREEN_WIDTH;
+                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
+            }
+        }
+
         rectangle = new Rect(xPos, yPos, xPos + width, yPos + height);
 //        xPos += width/2; // now its the middle of the missile
         xDistance = playerPos.x - xPos;
+        yDistance = playerPos.y - yPos;
         playerPosX = playerPos.x;
+        playerPosY = playerPos.y;
+
+
+
+        BitmapFactory bf = new BitmapFactory();
+        Bitmap movenot1 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_1);
+        Bitmap movenot2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_2);
+        Bitmap movenot3 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_3);
+
+        Bitmap move1 = RotateBitmap(movenot1,180);
+        Bitmap move2 = RotateBitmap(movenot2,180);
+        Bitmap move3 = RotateBitmap(movenot3,180);
 
 
         moving = new Animation(new Bitmap[]{move1,move2,move3}, .5f);
 
         aniManager = new AnimationManager(new Animation[]{moving});
 
+    }
+    public static Bitmap RotateBitmap(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
     boolean b = false;
@@ -51,7 +87,7 @@ public class Missile extends Obstacle {
     public void update(int elapsedTime) {
 //        xDistance = playerPosX - xPos;
         updatexPos(xDistance);
-        updateyPos();
+        updateyPos(yDistance);
 
         if (!b) {
             aniManager.playAnim(0);
@@ -68,11 +104,11 @@ public class Missile extends Obstacle {
 //        System.out.println("This is what the x direction is changing by" + xDist);
     }
 
-    public void updateyPos() {
-        rectangle.top += Constants.SCREEN_HEIGHT / 300;
-        rectangle.bottom += Constants.SCREEN_HEIGHT / 300;
+    public void updateyPos(double yDist) {
+        yDist = yDist / 300;
+        rectangle.top += (yDist);
+        rectangle.bottom += (yDist);
     }
-
 
     public void update(Point point) {   //Update method to move the obstacle to a new point
         rectangle.set(point.x - rectangle.width() / 2, point.y - rectangle.height() / 2,
@@ -94,3 +130,4 @@ public class Missile extends Obstacle {
 
     }
 }
+

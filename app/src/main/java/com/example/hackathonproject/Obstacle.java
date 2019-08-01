@@ -19,10 +19,6 @@ public class Obstacle implements Sprite {
     Bitmap movenot2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_2);
     Bitmap movenot3 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_4);
 
-    Bitmap move1 = RotateBitmap(movenot1,180);
-    Bitmap move2 = RotateBitmap(movenot2,180);
-    Bitmap move3 = RotateBitmap(movenot3,180);
-
 
     protected Rect rectangle;
     private int color;

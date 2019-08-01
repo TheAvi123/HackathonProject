@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.TextView;
 
 public class LevelOne extends Activity {
     // The actual level 1
@@ -23,6 +24,7 @@ public class LevelOne extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(new GamePanel(this));
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
+
     }
 
     @Override

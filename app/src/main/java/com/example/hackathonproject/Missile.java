@@ -11,6 +11,8 @@ import android.graphics.Rect;
 
 import androidx.constraintlayout.solver.widgets.Rectangle;
 
+import java.util.Random;
+
 public class Missile extends Obstacle {
     public static int width = 75;
     public static int height = 150;
@@ -36,13 +38,16 @@ public class Missile extends Obstacle {
     public Missile(Point playerPos) {
         super(new Rect(0, 0, height, width), Color.DKGRAY);
 
-        rand = (float) Math.random();
-        if (rand < 0.5) {
+        Random random = new Random();
+        int rand= random.nextInt(3);
+
+//        rand = (float) Math.random();
+        if (rand == 0) {
             xPos = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));  // here xpos is the left side of the missile
             yPos = 0;
         } else {
-            rand = (float) Math.random();
-            if (rand < 0.5) {
+//            rand = (float) Math.random();
+            if (rand == 1) {
                 xPos = 0;
                 yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
             } else {
@@ -58,16 +63,11 @@ public class Missile extends Obstacle {
         playerPosX = playerPos.x;
         playerPosY = playerPos.y;
 
+        int degrees = (int) getAngle(playerPos) + 90;
 
-
-        BitmapFactory bf = new BitmapFactory();
-        Bitmap movenot1 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_1);
-        Bitmap movenot2 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_2);
-        Bitmap movenot3 = bf.decodeResource(Constants.CURRENT_CONTEXT.getResources(), R.drawable.missile_3);
-
-        Bitmap move1 = RotateBitmap(movenot1,180);
-        Bitmap move2 = RotateBitmap(movenot2,180);
-        Bitmap move3 = RotateBitmap(movenot3,180);
+        Bitmap move1 = RotateBitmap(movenot1,degrees);
+        Bitmap move2 = RotateBitmap(movenot2,degrees);
+        Bitmap move3 = RotateBitmap(movenot3,degrees);
 
 
         moving = new Animation(new Bitmap[]{move1,move2,move3}, .5f);
@@ -75,6 +75,17 @@ public class Missile extends Obstacle {
         aniManager = new AnimationManager(new Animation[]{moving});
 
     }
+
+    public float getAngle(Point target) {
+        float angle = (float) Math.toDegrees(Math.atan2(target.y - yPos, target.x - xPos));
+
+        if(angle < 0){
+            angle += 360;
+        }
+
+        return angle;
+    }
+
     public static Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);

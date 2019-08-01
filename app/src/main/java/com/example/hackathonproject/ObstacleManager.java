@@ -1,10 +1,13 @@
 package com.example.hackathonproject;
 
+import android.app.Activity;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Observable;
@@ -21,16 +24,21 @@ public class ObstacleManager implements Observer {
     private ArrayList<Obstacle> obstaclesNeedToAdd;
     private int previousNum = 0;
     protected Point playersPos;
+    int scoreNum;
+    TextView scoreTxt;
 
 
 
 
     public ObstacleManager() {
 
+        scoreNum = 0;
         obstacles = new ArrayList<>();
         missileFrequency = new Random().nextInt(100);
 //        populateObstacles();
         timer = System.currentTimeMillis();
+        scoreTxt = (TextView) ((Activity)Constants.CURRENT_CONTEXT).findViewById(R.id.text);
+
     }
 
     public boolean playerCollide(Player player) {
@@ -54,26 +62,19 @@ public class ObstacleManager implements Observer {
         startTime = System.currentTimeMillis();
         long currTime = System.currentTimeMillis() - timer;
         int currNum = (int) Math.floor(currTime / 1000);
+//        scoreTxt.setText(scoreNum);
 //        if (obstacles.size() == 0) {
             if (previousNum != currNum) {
                 previousNum = currNum;
                 obstacles.add(new Missile(playersPos));
                 System.out.println("added obstacle, " + obstacles.size() + " are now active");
             }
-//        }
-
-//        System.out.println(obstacles.get(0).getRectangle());
-//        System.out.println(obstacles.get(0).getRectangle().right + " this is the right point");
-//        System.out.println(obstacles.get(0).getRectangle().top + " this is the top point");
-//        System.out.println(obstacles.get(0).getRectangle().bottom+ " this is the bottom point");
-//        System.out.println(obstacles.get(0).getRectangle().left  + " this is the left point");
-
-//        spawnHandler.postDelayed(SpawnEnemies, missileFreq);
         ArrayList<Obstacle> obstacleCopy = obstacles;
         for (int i = 0; i < obstacleCopy.size(); i++) {
             obstacleCopy.get(i).update(elapsedTime);
             if (obstacleCopy.get(i).getRectangle().top > Constants.SCREEN_HEIGHT) {
                 obstacles.remove(i);
+                scoreNum++;
                 System.out.println("REMOVED AN OBSTACLE ONLY " + obstacles.size() + " LEFT");
 
             }
@@ -83,6 +84,9 @@ public class ObstacleManager implements Observer {
 
 
     public void draw(Canvas canvas) {
+        Paint txtPaint = new Paint();
+        txtPaint.setTextSize(50);
+        canvas.drawText("Score: " + Integer.toString(scoreNum),50,50,txtPaint);
         for (Obstacle ob : obstacles) {
             ob.draw(canvas);
         }

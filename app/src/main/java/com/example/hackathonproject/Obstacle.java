@@ -9,8 +9,6 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 
-import static com.example.hackathonproject.Missile.RotateBitmap;
-
 public class Obstacle implements Sprite {
 
     BitmapFactory bf = new BitmapFactory();
@@ -42,6 +40,10 @@ public class Obstacle implements Sprite {
         return Rect.intersects(rectangle,player.getPlayerRectangle());
     }
 
+    public boolean collideWithUser(Point point){
+        return rectangle.contains(point.x,point.y);
+    }
+
     @Override
     public void draw(Canvas canvas) {
         Paint paint = new Paint();
@@ -51,12 +53,12 @@ public class Obstacle implements Sprite {
     }
 
     @Override
-    public void update() {
-
+    public void update() {}
+    public void update(int elapsedTime) {}
+    public void remove(){
+        System.out.println("USING WRONG ONE");
     }
-
-    public void update(int elapsedTime) {
-    }
+    public void flicked(double degree){}
 
 }
 

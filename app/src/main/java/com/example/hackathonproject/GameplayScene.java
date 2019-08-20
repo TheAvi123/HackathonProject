@@ -20,6 +20,10 @@ public class GameplayScene implements Scene {
     private ArrayList<Background> backgrounds;
     // Game Over Screen
     private Rect r = new Rect();
+    boolean downState = false;
+    boolean upState = false;
+    Point downPoint;
+    double degree = 0;
 
 
     public GameplayScene() {
@@ -36,13 +40,13 @@ public class GameplayScene implements Scene {
                 Constants.CURRENT_CONTEXT,
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT,
-                "clouds",  0, 80, 50));
+                "clouds", 0, 80, 50));
 
         backgrounds.add(new Background(
                 Constants.CURRENT_CONTEXT,
                 Constants.SCREEN_WIDTH,
                 Constants.SCREEN_HEIGHT,
-                "grass",  70, 110, 150));
+                "grass", 70, 110, 150));
 
     }
 
@@ -62,6 +66,9 @@ public class GameplayScene implements Scene {
             if (obstacleManager.playerCollide(player)) {
                 gameOver = true;
                 gameOverTime = System.currentTimeMillis();
+            }
+            if (upState&&downState) {
+                obstacleManager.flick(downPoint,degree);
             }
 
             // Update all the background positions
@@ -97,13 +104,38 @@ public class GameplayScene implements Scene {
 
     @Override
     public void receiveTouch(MotionEvent event) {
+        System.out.println("DOES THIS WORK?????????????????????");
+
+        if (!downState && upState) {
+            System.out.println("Somethings messed up");
+        }
+
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+                if (!downState) {
+                    downPoint = new Point((int) event.getX(), (int) event.getY());
+                    downState = true;
+                }
+
                 // After game is over for 2 seconds press down to reset the game
                 if (gameOver && System.currentTimeMillis() - gameOverTime >= 2000) {
-                    reset();
-                    gameOver = false;
+//                    reset();
+//                    gameOver = false;
                 }
+                break;
+            case MotionEvent.ACTION_UP:
+                if (!upState) {
+                    float diffX = downPoint.x - event.getX();
+                    float diffY = downPoint.y - event.getY();
+                    degree = Math.tan(diffY/diffX);
+                    upState = true;
+                } else {
+                    upState = false;
+                    downState = false;
+                    degree = 0;
+                }
+
+
         }
     }
 

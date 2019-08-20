@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Handler;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -25,28 +27,38 @@ public class ObstacleManager implements Observer {
     private int previousNum = 0;
     protected Point playersPos;
     int scoreNum;
+
     TextView scoreTxt;
 
 
-
-
     public ObstacleManager() {
-
         scoreNum = 0;
         obstacles = new ArrayList<>();
         missileFrequency = new Random().nextInt(100);
 //        populateObstacles();
         timer = System.currentTimeMillis();
-        scoreTxt = (TextView) ((Activity)Constants.CURRENT_CONTEXT).findViewById(R.id.text);
+        scoreTxt = (TextView) ((Activity) Constants.CURRENT_CONTEXT).findViewById(R.id.text);
 
     }
 
     public boolean playerCollide(Player player) {
         for (Obstacle ob : obstacles) {
-            if (ob.collidingWithPlayer(player))
-                return true;
+            if (ob.collidingWithPlayer(player)) {
+//                return true;
+            }
         }
         return false;
+    }
+
+    public void flick(Point point, double degree) {
+        Obstacle obToRemove = null;
+        for (Obstacle ob : obstacles) {
+            if (ob.collideWithUser(point)) {
+                obToRemove = ob;
+            }
+        }
+
+        obToRemove.flicked(degree);
     }
 
 
@@ -56,6 +68,7 @@ public class ObstacleManager implements Observer {
 //            int xStart = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));
 //        }
 //    };
+
 
     public void update() {
         int elapsedTime = (int) (System.currentTimeMillis() - startTime);
@@ -69,10 +82,12 @@ public class ObstacleManager implements Observer {
                 obstacles.add(new Missile(playersPos));
                 System.out.println("added obstacle, " + obstacles.size() + " are now active");
             }
+//        }
         ArrayList<Obstacle> obstacleCopy = obstacles;
         for (int i = 0; i < obstacleCopy.size(); i++) {
             obstacleCopy.get(i).update(elapsedTime);
             if (obstacleCopy.get(i).getRectangle().top > Constants.SCREEN_HEIGHT) {
+                obstacles.get(i).remove();
                 obstacles.remove(i);
                 scoreNum++;
                 System.out.println("REMOVED AN OBSTACLE ONLY " + obstacles.size() + " LEFT");
@@ -86,7 +101,7 @@ public class ObstacleManager implements Observer {
     public void draw(Canvas canvas) {
         Paint txtPaint = new Paint();
         txtPaint.setTextSize(50);
-        canvas.drawText("Score: " + Integer.toString(scoreNum),50,50,txtPaint);
+        canvas.drawText("Score: " + Integer.toString(scoreNum), 50, 50, txtPaint);
         for (Obstacle ob : obstacles) {
             ob.draw(canvas);
         }
@@ -96,4 +111,5 @@ public class ObstacleManager implements Observer {
     public void update(Observable observable, Object o) {
         playersPos = (Point) o;
     }
+
 }

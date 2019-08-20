@@ -3,6 +3,7 @@ package com.example.hackathonproject;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -17,7 +18,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     private GameThread thread;
     private SceneManager manager;
     ArrayList<Background> backgrounds;
-
+    private GestureDetector detector;
+    private MyGestureDetector myGestureDetector;
 
     public GamePanel(Context context) {
         super(context);
@@ -27,6 +29,11 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
         Constants.CURRENT_CONTEXT = context;
 
         manager = new SceneManager();
+
+        MyGestureDetector myGestureDetector= new MyGestureDetector();
+        detector = new GestureDetector(Constants.CURRENT_CONTEXT,myGestureDetector);
+        detector.setOnDoubleTapListener(myGestureDetector);
+
 
 
     }
@@ -66,6 +73,8 @@ public class GamePanel extends SurfaceView implements SurfaceHolder.Callback {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         manager.reciveTouch(event);
+//        detector.onTouchEvent(event);
+
         return true;
     }
 

@@ -33,47 +33,78 @@ public class Missile extends Obstacle {
     double yDistance;
 
     private Rect rect;
+    Bitmap move1;
+    Bitmap move2;
+    Bitmap move3;
 
 
     public Missile(Point playerPos) {
         super(new Rect(0, 0, height, width), Color.DKGRAY);
 
+
+        initializePositions(playerPos);
+
+        renderAnimation(playerPos);
+
+    }
+
+    private void initializePositions(Point playerPos) {
         Random random = new Random();
         int rand= random.nextInt(3);
 
-//        rand = (float) Math.random();
-        if (rand == 0) {
-            xPos = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));  // here xpos is the left side of the missile
-            yPos = 0;
-        } else {
-//            rand = (float) Math.random();
-            if (rand == 1) {
-                xPos = 0;
-                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
-            } else {
-                xPos = Constants.SCREEN_WIDTH;
-                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
-            }
-        }
+        xPos = getRandXPos(rand);
+        yPos = getRandYPos(rand);
 
         rectangle = new Rect(xPos, yPos, xPos + width, yPos + height);
-//        xPos += width/2; // now its the middle of the missile
         xDistance = playerPos.x - xPos;
         yDistance = playerPos.y - yPos;
         playerPosX = playerPos.x;
         playerPosY = playerPos.y;
+    }
 
+    private void renderAnimation(Point playerPos) {
         int degrees = (int) getAngle(playerPos) + 90;
 
-        Bitmap move1 = RotateBitmap(movenot1,degrees);
-        Bitmap move2 = RotateBitmap(movenot2,degrees);
-        Bitmap move3 = RotateBitmap(movenot3,degrees);
-
+        move1 = RotateBitmap(movenot1,degrees);
+        move2 = RotateBitmap(movenot2,degrees);
+        move3 = RotateBitmap(movenot3,degrees);
 
         moving = new Animation(new Bitmap[]{move1,move2,move3}, .5f);
+        movenot1.recycle();
+        movenot2.recycle();
+        movenot3.recycle();
 
         aniManager = new AnimationManager(new Animation[]{moving});
+    }
 
+    private int getRandXPos(int rand) {
+        int xPos;
+        if (rand == 0) {
+            xPos = (int) (Math.random() * (Constants.SCREEN_WIDTH - Missile.width));  // here xpos is the left side of the missile
+        } else {
+            if (rand == 1) {
+                xPos = 0;
+            } else {
+                xPos = Constants.SCREEN_WIDTH;
+            }
+        }
+        return xPos;
+    }
+
+    private int getRandYPos(int rand){
+        int yPos;
+        if (rand == 0) {
+            yPos = 0;
+        } else {
+//            rand = (float) Math.random();
+            if (rand == 1) {
+                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
+            } else {
+                yPos = (int) (Math.random() * (Constants.SCREEN_HEIGHT - Missile.height));  // here xpos is the left side of the missile
+            }
+        }
+
+        return yPos;
     }
 
     public float getAngle(Point target) {
@@ -86,15 +117,20 @@ public class Missile extends Obstacle {
         return angle;
     }
 
+    public void remove() {
+        move1.recycle();
+        move2.recycle();
+        move3.recycle();
+    }
+
     public static Bitmap RotateBitmap(Bitmap source, float angle) {
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);
         return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(), matrix, true);
     }
 
+
     boolean b = false;
-
-
     public void update(int elapsedTime) {
 //        xDistance = playerPosX - xPos;
         updatexPos(xDistance);
@@ -105,20 +141,18 @@ public class Missile extends Obstacle {
             b = true;
         }
         aniManager.update();
-//        xPos = rectangle.left + width/2;
     }
 
     public void updatexPos(double xDist) {
         xDist = xDist / 300;    // should calculate xDist every time to compensate for rounding
-        rectangle.left += (xDist);
-        rectangle.right += (xDist);
-//        System.out.println("This is what the x direction is changing by" + xDist);
+        rectangle.left += (xDist) * 2;
+        rectangle.right += (xDist) * 2;
     }
 
     public void updateyPos(double yDist) {
         yDist = yDist / 300;
-        rectangle.top += (yDist);
-        rectangle.bottom += (yDist);
+        rectangle.top += (yDist) * 3;
+        rectangle.bottom += (yDist) * 3;
     }
 
     public void update(Point point) {   //Update method to move the obstacle to a new point
@@ -134,10 +168,12 @@ public class Missile extends Obstacle {
 
     @Override
     public void draw(Canvas canvas) { // this stuff should be abstract
-//        Paint paint = new Paint();
-//        paint.setColor(color);
-//        canvas.drawRect(rectangle, paint);
         aniManager.draw(canvas, rectangle);
+    }
+
+    @Override
+    public void flicked(double degree) {
+        // implement this method
 
     }
 }

@@ -172,9 +172,9 @@ public class Missile extends Obstacle {
     }
 
     @Override
-    public void flicked(double degree) {
+    public void flicked(double degree,Point point) {
+        this.update(point);
         // implement this method
-
     }
 }
 

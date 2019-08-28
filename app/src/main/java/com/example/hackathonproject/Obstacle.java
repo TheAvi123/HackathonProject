@@ -58,7 +58,7 @@ public class Obstacle implements Sprite {
     public void remove(){
         System.out.println("USING WRONG ONE");
     }
-    public void flicked(double degree){}
+    public void flicked(double degree,Point point){}
 
 }
 

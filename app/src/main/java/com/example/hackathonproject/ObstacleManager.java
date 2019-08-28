@@ -58,7 +58,7 @@ public class ObstacleManager implements Observer {
             }
         }
 
-        obToRemove.flicked(degree);
+        obToRemove.flicked(degree,point);
     }
 
 
